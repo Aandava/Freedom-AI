@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <title>சுதந்திர தமிழ் AI</title>
+</head>
+<body>
+    <h1>சுதந்திர தமிழ் AI</h1>
+    <input type="text" id="search" placeholder="தேடவும்...">
+    <button onclick="searchAI()">தேடு</button>
+    <p id="result"></p>
+    <script>
+        function searchAI() {
+            const query = document.getElementById('search').value;
+            // இங்கே உங்கள் API க்கான இணைப்பைச் சேர்க்க வேண்டும்.
+            document.getElementById('result').innerText = "முடிவு: " + query;
+        }
+    </script>
+</body>
+</html>

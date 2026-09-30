@@ -1,0 +1,27 @@
+
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+
+app = FastAPI(title="Freedom-AI")
+
+class AnalysisRequest(BaseModel):
+    query: str
+
+def process_with_thirukkural_ethics(text: str) -> str:
+    # அறம், பொருள், இன்பம் ஆகிய வழிமுறைகளை மையமாக வைத்து செயலாக்குதல்
+    return f"Processed '{text}' aligned with Thirukkural ethics"
+
+@app.get("/")
+def read_root():
+
+    return {"message": "Welcome to Freedom-AI"}
+
+@app.post("/analyze")
+def analyze_data(request: AnalysisRequest):
+    try:
+        result = process_with_thirukkural_ethics(request.query)
+
+        return {"status": "Analysis completed", "result": result}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+

@@ -1,0 +1,59 @@
+from fastapi import FastAPI
+from pydantic import BaseModel, Field
+from dataclasses import dataclass
+from statistics import mean
+import hashlib, json
+
+app = FastAPI(title="சுதந்திர தமிழ் AI", description="Distributed Edge AI Prototype", version="0.1.0")
+
+class AskRequest(BaseModel):
+    question: str = Field(min_length=1, max_length=4000)
+
+@dataclass
+class EdgeNode:
+    node_id: str
+    model_name: str
+    compute_power: float
+
+    def analyze(self, question: str):
+        return {
+            "node_id": self.node_id,
+            "model": self.model_name,
+            "analysis": "Local analysis completed",
+            "confidence": 0.80
+        }
+
+class EdgeNetwork:
+    def __init__(self):
+        self.nodes = []
+
+    def add_node(self, node):
+        self.nodes.append(node)
+
+    def broadcast(self, question: str):
+        return [n.analyze(question) for n in self.nodes]
+
+class ThirukkuralReasoning:
+    def evaluate(self, question: str):
+        scores = [0.80, 0.75, 0.85]
+        return {
+            "அறம்": {"score": 0.80, "reason": "நீதி, பொறுப்பு, தீங்கு தவிர்த்தல்"},
+            "பொருள்": {"score": 0.75, "reason": "வளம், நடைமுறைப் பயன், சமூக இன்பம்"},
+            "இன்பம்": {"score": 0.85, "reason": "மனித நலம், உறவு, வாழ்க்கைத் தரம்"},
+            "balance_score": mean(scores)
+        }
+
+class ConsensusEngine:
+    def calculate(self, node_results):
+        confidences = [res["confidence"] for res in node_results]
+        consensus_val = mean(confidences) if confidences else 0.0
+        return {
+            "consensus": consensus_val >= 0.60,
+            "confidence_mean": consensus_val,
+            "nodes_used": len(node_results)
+        }
+
+class AuditEngine:
+    def create_hash(self, data):
+        json_str = json.dumps(data, ensure_ascii=False, sort_keys=True)
+        return hashlib.sha256(json_str.encode('utf-8')).hexdigest()
